@@ -33,7 +33,7 @@ jobs:
           python -c 'from pathlib import Path;
           from xml.etree import ElementTree as E;
           paths = [*Path("examples/output").glob("*.svg"), *Path("build").glob("test-*.svg")];
-          assert len(paths) == 10;
+          assert len(paths) == 18;
           roots = [E.parse(p).getroot() for p in paths];
           assert all(r.tag == "{http://www.w3.org/2000/svg}svg" for r in roots);
           ns = {"s": "http://www.w3.org/2000/svg"};
@@ -41,7 +41,16 @@ jobs:
           assert [float(b.get("height")) for b in bars] == [103.125, 171.875];
           assert [float(b.get("y")) for b in bars] == [241.875, 70.0];
           counts = {"line": 2, "scatter": 2, "single": 1, "constant": 2};
-          assert all(len(E.parse("build/test-" + name + ".svg").getroot().findall(".//s:circle", ns)) == count for name, count in counts.items())'
+          assert all(len(E.parse("build/test-" + name + ".svg").getroot().findall(".//s:circle", ns)) == count for name, count in counts.items());
+          pie = E.parse("build/test-pie.svg").getroot();
+          assert len(pie.findall(".//s:path", ns)) == 4;
+          assert len(E.parse("build/test-pie-single.svg").getroot().findall(".//s:circle", ns)) == 2;
+          large = E.parse("build/test-pie-large.svg").getroot().findall(".//s:path", ns);
+          assert " 0 1 1 " in large[0].get("d");
+          hist = E.parse("build/test-histogram.svg").getroot().findall(".//s:rect", ns)[1:];
+          assert len(hist) == 2;
+          assert [float(b.get("height")) for b in hist] == [223.333, 335.0];
+          assert float(hist[0].get("x")) + float(hist[0].get("width")) == float(hist[1].get("x"))'
       - uses: actions/upload-artifact@v4
         if: always()
         with:

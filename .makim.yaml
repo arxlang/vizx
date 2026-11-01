@@ -21,6 +21,7 @@ groups:
         run: |
           mkdir -p build examples/output
           arx examples/gallery.x --output-file build/gallery --run
+          arx examples/ranges.x --output-file build/ranges --run
       ci:
         help: Build and test the library and regenerate the gallery
         hooks:
