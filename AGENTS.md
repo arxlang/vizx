@@ -13,6 +13,16 @@ numeric formatting, SVG primitives, and figure ownership. A new chart adds its
 module, an explicit `express.x` export, focused tests, and an executable example;
 it must not add chart-kind switches to existing renderers.
 
+Collection adapters live under `src/vizx/data/` and return owned numeric
+snapshots. Keep them separate from chart geometry. Support only collection
+signatures verified with the released compiler; do not claim generic sequences
+or runtime-shaped tensor access until the compiler supports them. Preserve row
+order, reject null coordinates, and never silently narrow integer values.
+
+Pie weights must be nonnegative with a positive total. Histogram bins include
+their left edge; only the final bin includes its right edge. Reject collapsed
+bin edges instead of silently losing samples.
+
 Reject invalid data before indexing. Preserve input order and caller ownership.
 Do not silently drop nonfinite or mismatched points. Keep output deterministic,
 and close output files even when writing fails.
