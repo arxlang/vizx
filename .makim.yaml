@@ -1,0 +1,31 @@
+backend: bash -e
+
+groups:
+  pkg:
+    tasks:
+      build:
+        help: Compile the library entry point
+        run: arxpm build
+      pack:
+        help: Build the Arx source distribution and wheel
+        run: arxpm pack
+  tests:
+    tasks:
+      unit:
+        help: Run the compiled Arx tests
+        run: |
+          mkdir -p build
+          arx test tests
+      gallery:
+        help: Generate the static SVG gallery with Arx
+        run: |
+          mkdir -p build examples/output
+          arx examples/gallery.x --output-file build/gallery --run
+      ci:
+        help: Build and test the library and regenerate the gallery
+        hooks:
+          pre-run:
+            - task: pkg.build
+            - task: tests.unit
+            - task: tests.gallery
+        run: git diff --exit-code -- examples/output/*.svg

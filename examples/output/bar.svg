@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="460" viewBox="0 0 720 460" role="img">
+<title><![CDATA[Monthly revenue]]></title>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<g font-family="DejaVu Sans, sans-serif">
+<text x="78" y="38" font-size="22" font-weight="bold" fill="#0f172a"><![CDATA[Monthly revenue]]></text>
+<line x1="78" y1="405" x2="690" y2="405" stroke="#e2e8f0" stroke-width="1"/>
+<text x="66" y="409" text-anchor="end" font-size="12" fill="#64748b">0</text>
+<line x1="78" y1="321.25" x2="690" y2="321.25" stroke="#e2e8f0" stroke-width="1"/>
+<text x="66" y="325.25" text-anchor="end" font-size="12" fill="#64748b">18.5</text>
+<line x1="78" y1="237.5" x2="690" y2="237.5" stroke="#e2e8f0" stroke-width="1"/>
+<text x="66" y="241.5" text-anchor="end" font-size="12" fill="#64748b">37</text>
+<line x1="78" y1="153.75" x2="690" y2="153.75" stroke="#e2e8f0" stroke-width="1"/>
+<text x="66" y="157.75" text-anchor="end" font-size="12" fill="#64748b">55.5</text>
+<line x1="78" y1="70" x2="690" y2="70" stroke="#e2e8f0" stroke-width="1"/>
+<text x="66" y="74" text-anchor="end" font-size="12" fill="#64748b">74</text>
+<line x1="78" y1="70" x2="78" y2="405" stroke="#94a3b8" stroke-width="1"/>
+<line x1="78" y1="405" x2="690" y2="405" stroke="#94a3b8" stroke-width="1"/>
+<line x1="78" y1="405" x2="690" y2="405" stroke="#94a3b8" stroke-width="1"/>
+<rect x="95.34" y="278.243" width="67.32" height="126.757" fill="#2563eb"/>
+<text x="129" y="430" text-anchor="middle" font-size="12" fill="#64748b">1</text>
+<rect x="197.34" y="201.284" width="67.32" height="203.716" fill="#2563eb"/>
+<text x="231" y="430" text-anchor="middle" font-size="12" fill="#64748b">2</text>
+<rect x="299.34" y="242.027" width="67.32" height="162.973" fill="#2563eb"/>
+<text x="333" y="430" text-anchor="middle" font-size="12" fill="#64748b">3</text>
+<rect x="401.34" y="124.324" width="67.32" height="280.676" fill="#2563eb"/>
+<text x="435" y="430" text-anchor="middle" font-size="12" fill="#64748b">4</text>
+<rect x="503.34" y="183.176" width="67.32" height="221.824" fill="#2563eb"/>
+<text x="537" y="430" text-anchor="middle" font-size="12" fill="#64748b">5</text>
+<rect x="605.34" y="70" width="67.32" height="335" fill="#2563eb"/>
+<text x="639" y="430" text-anchor="middle" font-size="12" fill="#64748b">6</text>
+</g>
+</svg>

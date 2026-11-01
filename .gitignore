@@ -218,3 +218,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Arx tool artifacts
+.arx/
+arx-test-*/
+arxpm-publish-*/
+build-env-*/
