@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install the toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang
+          python -m pip install -r requirements-dev.txt
+      - name: Build, run compiled tests, and check gallery freshness
+        run: makim tests.ci
+      - name: Validate generated SVG documents
+        run: >-
+          python -c 'from pathlib import Path;
+          from xml.etree import ElementTree as E;
+          paths = [*Path("examples/output").glob("*.svg"), *Path("build").glob("test-*.svg")];
+          assert len(paths) == 10;
+          roots = [E.parse(p).getroot() for p in paths];
+          assert all(r.tag == "{http://www.w3.org/2000/svg}svg" for r in roots);
+          ns = {"s": "http://www.w3.org/2000/svg"};
+          bars = E.parse("build/test-bar.svg").getroot().findall(".//s:rect", ns)[1:];
+          assert [float(b.get("height")) for b in bars] == [103.125, 171.875];
+          assert [float(b.get("y")) for b in bars] == [241.875, 70.0];
+          counts = {"line": 2, "scatter": 2, "single": 1, "constant": 2};
+          assert all(len(E.parse("build/test-" + name + ".svg").getroot().findall(".//s:circle", ns)) == count for name, count in counts.items())'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: charts-python-${{ matrix.python-version }}
+          path: |
+            examples/output/*.svg
+            build/test-*.svg
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install the toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang
+          python -m pip install -r requirements-dev.txt
+      - name: Check source hygiene
+        run: pre-commit run --all-files
+      - run: arxpm pack
+      - name: Compile a consumer using the installed source wheel
+        run: |
+          python -m pip install --no-deps dist/*.whl
+          consumer_dir="$(mktemp -d)"
+          cp examples/gallery.x "$consumer_dir/main.x"
+          cp examples/consumer/.arxproject.toml "$consumer_dir/.arxproject.toml"
+          mkdir -p "$consumer_dir/examples/output"
+          cd "$consumer_dir"
+          arx main.x --output-file gallery --run
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vizx-package
+          path: dist/*

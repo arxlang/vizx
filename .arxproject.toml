@@ -1,0 +1,21 @@
+[project]
+name = "vizx"
+version = "0.1.0"
+edition = "2026"
+description = "Modular static plotting, written entirely in Arx."
+requires-arx = ">=1.25.0,<1.26.0"
+
+[build-system]
+dependencies = ["arxlang ==1.25.0"]
+
+[build]
+package = "vizx"
+src_dir = "src"
+out_dir = "build"
+mode = "lib"
+
+[environment]
+kind = "system"
+
+[dependency-groups]
+dev = ["arxpm", "makim", "pre-commit"]
